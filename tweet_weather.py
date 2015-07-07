@@ -31,7 +31,7 @@ WOEID = config.get('auth', 'WOEID')
 #    Today: Low - High
 #    Currently: Current Temp
 #   
-#    Use Cron to schedule
+#    Use Cron file to schedule
     
 class TweetForecast(webapp2.RequestHandler):
     def get(self):
@@ -139,7 +139,7 @@ class TweetForecast(webapp2.RequestHandler):
 #
 #Uses Google Task Queues to reload it.
 #This will ONLY tweet if it is raining.
-#If it is NOT raining, then another instane of the task is sent to the default queue
+#If it is NOT raining, then another instance of the task is sent to the default queue
 #Polling frequency can be adjusted by changing the settings of the queue
 #
 #If it IS raining and the tweet is succesful the task queue will be purged and the operation will shut down until it is started again.
@@ -147,6 +147,9 @@ class TweetForecast(webapp2.RequestHandler):
 #Use Cron to start it every afternoon, if it is still running from the previous day then it will just be reloaded.
 #
 #This ensures that it doesn't tweet Yes more than once a day
+#Cron only has to start it once, after that the frequency with which it checks the Yahoo Weather API will vary depending on the Queue settings
+#The Google task queue is configured by the queue.yaml file
+#Current setting allows 12 tasks per hour... so it checks every 5 minutes
 
 class TweetYes(webapp2.RequestHandler):
     def get(self):
