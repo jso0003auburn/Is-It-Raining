@@ -1,28 +1,65 @@
-## Is It Raining Twitter
+#About:
 
-A Twitter weather app.
+Is-It-Raining automates a Twitter account for the purpose of checking the current weather and forecast.
 
-## Setting Up.
+It has two main functions:
 
-Input the correct Twitter keys and WOEID in the settings.cfg file. Everything else should be good to go from there.
+1 - A forecast tweet that can be scheduled via Cron. 
 
-App runs on the Google App Engine.
+The forecast tweet will post a tweet in the following format:
+Now: yes/no + random comment
+Later: forecasted conditions
+Today: Low - High
+Currently: Current Temp
 
-No key for the Yahoo Weather API is needed.
+2 - A function that continually checks if it has started raining. 
+This task is started once via Cron and then run continuously every 
+5 minutes using Google App Engine's Task Queues. The Queue is configured
+by queue.yaml
 
-### Installing Libraries
-See the [Third party
-libraries](https://developers.google.com/appengine/docs/python/tools/libraries27)
-page for libraries that are already included in the SDK.  To include SDK
-libraries, add them in your app.yaml file. Other than libraries included in
-the SDK, only pure python libraries may be added to an App Engine project.
 
-### Feedback
-Star this repo if you found it useful. Use the github issue tracker to give
-feedback on this repo.
+Example account updated by this script: https://twitter.com/IsItRainingATL
 
-## Licensing
-See [LICENSE](LICENSE)
 
-## Author
-John Olson
+Author: John Olson
+
+#Dependencies: 
+tweepy (https://github.com/tweepy/tweepy)
+Twitter API: https://dev.twitter.com/
+
+
+#Configuration:
+
+Configuration is controlled through settings.cfg which must be in the same
+directory as tweet_weather.py.  Your Twitter Application ID tokens need to be
+stored in this file to give the script permission to post status messages
+on your Twitter account. This section is required.
+
+The location of the Weather data is controlled by Yahoo! WOEID which is also
+stored in settings.cfg
+
+You can lookup WOEID for a location here:
+
+http://woeid.rosselliot.co.nz/
+http://dev.twitter.com/apps/myappid
+http://dev.twitter.com/apps/myappid/my_token
+http://stackapps.com/apps/oauth/register
+
+Example settings.cfg
+--------------------
+
+[auth]
+WOEID = 2371098
+CONSUMER_KEY = ConsumerKey
+CONSUMER_SECRET = ConsumerSecret
+ACCESS_TOKEN = AccessToken
+ACCESS_TOKEN_SECRET = AccessSecret
+
+
+#Logging:
+
+Status / error messages are stored within the Google App Engine's logging mechanism and
+can be checked within the console there.
+
+
+
