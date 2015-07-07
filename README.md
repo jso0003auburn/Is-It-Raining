@@ -9,11 +9,8 @@ It has two main functions:
 The forecast tweet will post a tweet in the following format:
 
 	Now: yes/no + random comment
-
 	Later: forecasted conditions
-
 	Today: Low - High
-
 	Currently: Current Temp
 
 2 - A function that continually checks if it has started raining. 
@@ -46,19 +43,17 @@ stored in settings.cfg
 You can lookup WOEID for a location here:
 
 http://woeid.rosselliot.co.nz/
-http://dev.twitter.com/apps/myappid
-http://dev.twitter.com/apps/myappid/my_token
-http://stackapps.com/apps/oauth/register
+
 
 Example settings.cfg
 --------------------
 
-[auth]
-WOEID = 2371098
-CONSUMER_KEY = ConsumerKey
-CONSUMER_SECRET = ConsumerSecret
-ACCESS_TOKEN = AccessToken
-ACCESS_TOKEN_SECRET = AccessSecret
+	[auth]
+	WOEID = 2371098
+	CONSUMER_KEY = ConsumerKey
+	CONSUMER_SECRET = ConsumerSecret
+	ACCESS_TOKEN = AccessToken
+	ACCESS_TOKEN_SECRET = AccessSecret
 
 
 #Logging:
