@@ -198,6 +198,7 @@ class TweetYes(webapp2.RequestHandler):
 			q.purge()
 			time.sleep(30)
 
+#updates the twitter account using the codes stored in settings.cfg
 def tweet(answer):
     CONSUMER_KEY = config.get('auth', 'CONSUMER_KEY')
     CONSUMER_SECRET = config.get('auth', 'CONSUMER_SECRET')
