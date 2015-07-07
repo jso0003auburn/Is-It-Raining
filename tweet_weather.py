@@ -25,13 +25,13 @@ config = ConfigParser.RawConfigParser()
 config.read('settings.cfg')
 WOEID = config.get('auth', 'WOEID')
 
-#First function is designed to check the current conditions and then tweet the following
-#    Now: yes/no + random comment
-#    Later: forecasted conditions
-#    Today: Low - High
-#    Currently: Current Temp
-#   
-#    Use Cron file to schedule
+#	First function is designed to check the current conditions and then tweet the following
+#   Now: yes/no + random comment
+#   Later: forecasted conditions
+#   Today: Low - High
+#   Currently: Current Temp
+#
+#   Use Cron file to schedule
     
 class TweetForecast(webapp2.RequestHandler):
     def get(self):
@@ -55,6 +55,11 @@ class TweetForecast(webapp2.RequestHandler):
             currentCondition = int(currentC)
             forecastfile.close()
             
+            #Yahoos weather API uses certain condition codes. 
+            #Depending on the condition a comment on the weather will be generated. 
+            #comment choices can be edited in the txt files
+            #If it falls within the unique codes the script just uses Yahoos own description since theyre rare enough to not be repeated often
+            #Condition codes can be found at https://gist.github.com/bzerangue/805520
             
             rainCodes = [1,2,3,4,5,6,8,9,10,11,12,18,35,45,46]
             scatteredCodes = [37,38,39,40,47]
@@ -64,7 +69,7 @@ class TweetForecast(webapp2.RequestHandler):
             snowCodes = [13,14,15,16,41,42,43,3200]
             uniqueCodes = [17,19,20,21,22,23,24,25,36]
 
-
+			
             if currentCondition in rainCodes:
                 with open('choices/yeschoices.txt') as yes_choicesf:        
                     yes_choices = yes_choicesf.readlines()
@@ -115,10 +120,10 @@ class TweetForecast(webapp2.RequestHandler):
             if currentCondition in uniqueCodes:
                     comment = str( ' ' + currentText + '.')
 
+            
+            #this is where the tweet is formatted and put together
             a = a.rstrip("\r\n")                                                
             comment = comment.rstrip("\r\n")
-            
-            
             answer = ('Now: ' + a + ' ' + comment + '\n' + "Later: " + forecast + '.' + '\n' + 'Today: ' + low + '° - ' + high + '°\n' + 'Currently: ' + currentTemp + '°')
             logging.info(answer)
             tweet(answer)
@@ -144,12 +149,11 @@ class TweetForecast(webapp2.RequestHandler):
 #
 #If it IS raining and the tweet is succesful the task queue will be purged and the operation will shut down until it is started again.
 #
-#Use Cron to start it every afternoon, if it is still running from the previous day then it will just be reloaded.
+#Use Cron to start it an hour after every forecast, if it is still running from the previous day then it will just be reloaded.
 #
-#This ensures that it doesn't tweet Yes more than once a day
 #Cron only has to start it once, after that the frequency with which it checks the Yahoo Weather API will vary depending on the Queue settings
 #The Google task queue is configured by the queue.yaml file
-#Current setting allows 12 tasks per hour... so it checks every 5 minutes
+#Current settings limit it to 12 tasks per hour... so it checks every 5 minutes
 
 class TweetYes(webapp2.RequestHandler):
     def get(self):
