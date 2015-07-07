@@ -14,7 +14,7 @@ The forecast tweet will post a tweet in the following format:
 	Currently: Current Temp
 
 2 - A function that continually checks if it has started raining. 
-This task is started once via Cron and then run continuously every 
+This task is started once via Cron and then runs continuously every 
 5 minutes using Google App Engine's Task Queues. The Queue is configured
 by queue.yaml
 
