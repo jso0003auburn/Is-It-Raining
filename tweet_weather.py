@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import webapp2
 import logging
-#Wed 06 24 654PM
 import sys
 import tweepy
 import calendar
