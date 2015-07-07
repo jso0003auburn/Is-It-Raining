@@ -7,10 +7,14 @@ It has two main functions:
 1 - A forecast tweet that can be scheduled via Cron. 
 
 The forecast tweet will post a tweet in the following format:
-Now: yes/no + random comment
-Later: forecasted conditions
-Today: Low - High
-Currently: Current Temp
+
+	Now: yes/no + random comment
+
+	Later: forecasted conditions
+
+	Today: Low - High
+
+	Currently: Current Temp
 
 2 - A function that continually checks if it has started raining. 
 This task is started once via Cron and then run continuously every 
@@ -25,6 +29,7 @@ Author: John Olson
 
 #Dependencies: 
 tweepy (https://github.com/tweepy/tweepy)
+
 Twitter API: https://dev.twitter.com/
 
 
