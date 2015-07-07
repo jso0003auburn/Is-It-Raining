@@ -66,21 +66,21 @@ class TweetForecast(webapp2.RequestHandler):
 
 
             if currentCondition in rainCodes:
-                with open('yeschoices.txt') as yes_choicesf:        
+                with open('choices/yeschoices.txt') as yes_choicesf:        
                     yes_choices = yes_choicesf.readlines()
                     yes = random.choice(yes_choices)                
                     yes_choicesf.close()
                     a = yes
                     comment = str('')
             else:
-                with open('nochoices.txt') as no_choicesf:
+                with open('choices/nochoices.txt') as no_choicesf:
                     no_choices = no_choicesf.readlines() 
                     no = random.choice(no_choices)
                     no_choicesf.close()
                     a = no
 
             if currentCondition in scatteredCodes:
-                with open('scatteredchoices.txt') as scattered_choicesf:
+                with open('choices/scatteredchoices.txt') as scattered_choicesf:
                     scattered_choices = scattered_choicesf.readlines() 
                     scattered = random.choice(scattered_choices)
                     scattered_choicesf.close()
@@ -88,14 +88,14 @@ class TweetForecast(webapp2.RequestHandler):
                     comment = str('')
 
             if currentCondition in fairCodes:
-                with open('fairchoices.txt') as fair_choicesf:
+                with open('choices/fairchoices.txt') as fair_choicesf:
                     fair_choices = fair_choicesf.readlines() 
                     fair = random.choice(fair_choices)
                     fair_choicesf.close()
                     comment = fair                   
 
             if currentCondition in overcastCodes: 
-                with open('overcastchoices.txt') as overcast_choicesf:
+                with open('choices/overcastchoices.txt') as overcast_choicesf:
                     overcast_choices = overcast_choicesf.readlines() 
                     overcast = random.choice(overcast_choices)
                     overcast_choicesf.close()
@@ -105,7 +105,7 @@ class TweetForecast(webapp2.RequestHandler):
                     comment = str('')
         
             if currentCondition in snowCodes:
-                with open('snowchoices.txt') as snow_choicesf:
+                with open('choices/snowchoices.txt') as snow_choicesf:
                     snow_choices = snow_choicesf.readlines() 
                     snow = random.choice(snow_choices)
                     snow_choicesf.close()
