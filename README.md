@@ -6,6 +6,10 @@ A Twitter weather app.
 
 Input the correct Twitter keys and WOEID in the settings.cfg file. Everything else should be good to go from there.
 
+App runs on the Google App Engine.
+
+No key for the Yahoo Weather API is needed.
+
 ### Installing Libraries
 See the [Third party
 libraries](https://developers.google.com/appengine/docs/python/tools/libraries27)
