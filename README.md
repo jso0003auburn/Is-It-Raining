@@ -2,21 +2,14 @@
 
 Is-It-Raining automates a Twitter account for the purpose of checking the current weather and forecast.
 
-It has two main functions:
-
-1 - A forecast tweet that can be scheduled via Cron. 
+A forecast tweet that can be scheduled via Cron. 
 
 The forecast tweet will post a tweet in the following format:
 
-	Now: yes/no + random comment
-	Later: forecasted conditions
-	Today: Low - High
-	Currently: Current Temp
+	Yes/No, weather comment.
+	Currently temp.
+	Tonight/Today's high/low and forecast
 
-2 - A function that continually checks if it has started raining. 
-This task is started once via Cron and then runs continuously every 
-5 minutes using Google App Engine's Task Queues. The Queue is configured
-by queue.yaml
 
 
 Example account updated by this script: https://twitter.com/IsItRainingATL
@@ -48,12 +41,13 @@ http://woeid.rosselliot.co.nz/
 Example settings.cfg
 --------------------
 
-	[auth]
+	[ATL]
 	WOEID = 2371098
 	CONSUMER_KEY = ConsumerKey
 	CONSUMER_SECRET = ConsumerSecret
 	ACCESS_TOKEN = AccessToken
 	ACCESS_TOKEN_SECRET = AccessSecret
+	units = i
 
 
 #Logging:
