@@ -1,20 +1,51 @@
-application: is-it-raining
-version: 1
+application: is-it-raining-atl
+version: 3
 runtime: python27
 api_version: 1
 threadsafe: yes
+automatic_scaling:
+    min_idle_instances: 0
+    max_idle_instances: 1  # default value
+    min_pending_latency: 1s  # default value
+    max_pending_latency: 5s
+    max_concurrent_requests: 40
 
 handlers:  
-- url: /tweet_forecast
+- url: /EST
   script: tweet_weather.app
   login: admin
   
-- url: /tweet_yes
+- url: /CST
+  script: tweet_weather.app
+  login: admin
+  
+- url: /PST
+  script: tweet_weather.app
+  login: admin
+  
+- url: /GMT
+  script: tweet_weather.app
+  login: admin
+  
+- url: /UTC
+  script: tweet_weather.app
+  login: admin
+  
+- url: /UTCm3
+  script: tweet_weather.app
+  login: admin
+  
+- url: /UTC10
+  script: tweet_weather.app
+  login: admin
+  
+- url: /STATS
   script: tweet_weather.app
   login: admin
 
 - url: .*
   script: main.app
+  login: admin
 
 libraries:
 - name: jinja2
@@ -25,6 +56,7 @@ libraries:
   version: latest
 - name: webapp2
   version: "2.5.2"
-  
+
 skip_files:
 - ^(.*/)?.*\.py[co]
+

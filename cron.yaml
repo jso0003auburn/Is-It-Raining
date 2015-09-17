@@ -1,20 +1,70 @@
 cron:
 - description: daily morning tweet
-  url: /tweet_forecast
+  url: /EST
   schedule: every day 07:22
   timezone: America/New_York
-  
-- description: afternoon update
-  url: /tweet_forecast
-  schedule: every day 16:25
-  timezone: America/New_York
+
+- description: check for yes
+  url: /CST
+  schedule: every day 07:22
+  timezone: America/Chicago  
+
+- description: check for yes
+  url: /PST
+  schedule: every day 07:22
+  timezone: America/Los_Angeles
+
+- description: check for yes
+  url: /GMT
+  schedule: every day 07:22
+  timezone: Europe/London 
+
+- description: check for yes
+  url: /UTC
+  schedule: every day 07:22
+  timezone: Asia/Hong_Kong
   
 - description: check for yes
-  url: /tweet_yes
-  schedule: every day 11:22
-  timezone: America/New_York
+  url: /UTCm3
+  schedule: every day 07:22
+  timezone: America/Sao_Paulo
   
 - description: check for yes
-  url: /tweet_yes
-  schedule: every day 17:25
+  url: /UTC10
+  schedule: every day 07:22
+  timezone: Australia/Sydney
+  
+- description: daily morning tweet
+  url: /EST
+  schedule: every day 16:22
   timezone: America/New_York
+
+- description: check for yes
+  url: /CST
+  schedule: every day 16:22
+  timezone: America/Chicago  
+
+- description: check for yes
+  url: /PST
+  schedule: every day 16:22
+  timezone: America/Los_Angeles
+  
+- description: check for yes
+  url: /GMT
+  schedule: every day 16:22
+  timezone: Europe/London 
+
+- description: check for yes
+  url: /UTC
+  schedule: every day 16:22
+  timezone: Asia/Hong_Kong
+  
+- description: check for yes
+  url: /UTCm3
+  schedule: every day 16:22
+  timezone: America/Sao_Paulo
+  
+- description: check for yes
+  url: /UTC10
+  schedule: every day 16:22
+  timezone: Australia/Sydney
