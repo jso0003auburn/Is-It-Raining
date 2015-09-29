@@ -11,27 +11,16 @@ import random
 import time
 import datetime
 
-
 from google.appengine.api import taskqueue
 from tweepy.auth import OAuthHandler
 from tweepy.api import API
 from ConfigParser import NoSectionError, NoOptionError
 from urllib2 import urlopen, URLError
 
-
 #settings.cfg contains WOEID for city identification as well as the keys to the Twitter API
-
-
-
 #First function is designed to check the current conditions and then tweet the following
-#    Now: yes/no + random comment
-#    Later: forecasted conditions
-#    Today: Low - High
-#    Currently: Current Temp
-#   
-#    Use Cron to schedule
+#Use Cron to schedule
             
-
 class EST(webapp2.RequestHandler):
     def get(self):
         forecast('ATL')
@@ -107,7 +96,6 @@ def checkup(city):
     y = me.followers_count
     logging.critical('IsItRaining' + city + ' FOLLOWING:' + str( x ) + ' and FOLLOWERS: ' +  str( y ))
 
-
 def forecast(city):
     config = ConfigParser.RawConfigParser()
     config.read('settings.cfg')
@@ -122,7 +110,7 @@ def forecast(city):
     forecast = item[7]
     high = forecast.attrib['high']
     low = forecast.attrib['low']
-    forecast = forecast.attrib['text']
+    forecastText = forecast.attrib['text']
     currentTemp = description.attrib['temp']
     currentText = description.attrib['text']
     currentC = description.attrib['code']
@@ -165,20 +153,12 @@ def forecast(city):
         
     if currentCondition in blankCodes:
         comment = str('')
-        
-    if 'Sunny' or 'Clear' in forecast:
-        forecast_choices = ["clear skies", "no clouds", "a clear sky"]
-        forecast = random.choice(forecast_choices)
-
-    if 'Cloudy' in forecast:
-        forecast_choices = ["cloudy skies", "clouds", "grey skies", "a cloudy sky"]
-        forecast = random.choice(forecast_choices)
-                        
+                       
     if 'pm' in timeStamp:
-        timeStamp = "Tonight's low is "
+        timeStamp = "low tonight of "
         tempHL = low
     else:
-        timeStamp = "Today's high is "
+        timeStamp = "high today of "
         tempHL = high
 
     if ata in city:
@@ -199,9 +179,9 @@ def forecast(city):
     a = a.rstrip("\r\n")                                                
     comment = comment.rstrip("\r\n")
     comment = comment.lower()
-    forecast = forecast.lower()
+    forecastText = forecastText.lower()
 
-    answer = (a + comment + '.\n' +  "Currently " + currentTemp + '°' + '.\n' + timeStamp + tempHL + "° w/ " + forecast + '.')
+    answer = (a + comment + '.\n' + currentTemp + '° now w/ ' + timeStamp + tempHL + '°\n' + "Forecast: " + forecastText + '.')
     logging.info(answer)
     CONSUMER_KEY = config.get(city, 'CONSUMER_KEY')
     CONSUMER_SECRET = config.get(city, 'CONSUMER_SECRET')
