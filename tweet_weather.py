@@ -20,90 +20,28 @@ from urllib2 import urlopen, URLError
 #settings.cfg contains WOEID for city identification as well as the keys to the Twitter API
 #First function is designed to check the current conditions and then tweet the following
 #Use Cron to schedule
+ 
+ 
             
-class EST(webapp2.RequestHandler):
+class ATL(webapp2.RequestHandler):
     def get(self):
         forecast('ATL')
-        forecast('BOS')
-        forecast('DC')
-        forecast('MIA')
-
-class CST(webapp2.RequestHandler):
-    def get(self):
-        forecast('ATX')
-        forecast('BHM')
-        forecast('CHI')
-        forecast('DFW')
-        forecast('HOU')
-
-class PST(webapp2.RequestHandler):
-    def get(self):
-        forecast('LA')
-        forecast('SEA')
-        forecast('SFO')
         
-class GMT(webapp2.RequestHandler):
+class CLT(webapp2.RequestHandler):
     def get(self):
-        forecast('ATA')
-        forecast('LDN')
-    
-class UTC(webapp2.RequestHandler):
-    def get(self):
-        forecast('HKG')
-        
-class UTCm3(webapp2.RequestHandler):
-    def get(self):
-        forecast('RIO')  
-
-class UTC10(webapp2.RequestHandler):
-    def get(self):
-        forecast('SYD')
-
-class STATS(webapp2.RequestHandler):
-    def get(self):
-        checkup('ATA')
-        checkup('ATL')
-        checkup('ATX')
-        checkup('BHM')
-        checkup('BOS')
-        checkup('CHI')
-        checkup('DC')
-        checkup('DFW')
-        checkup('HKG')
-        checkup('HOU')
-        checkup('LA')
-        checkup('LDN')
-        checkup('MIA')
-        checkup('RIO')
-        checkup('SEA')
-        checkup('SFO')
-        checkup('SYD')
-
-def checkup(city):
-    config = ConfigParser.RawConfigParser()
-    config.read('settings.cfg')
-    myhandle = config.get(city, 'myhandle')
-    CONSUMER_KEY = config.get(city, 'CONSUMER_KEY')
-    CONSUMER_SECRET = config.get(city, 'CONSUMER_SECRET')
-    ACCESS_TOKEN = config.get(city, 'ACCESS_TOKEN')
-    ACCESS_TOKEN_SECRET = config.get(city, 'ACCESS_TOKEN_SECRET')
-
-    auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-    api = API(auth)
-    me = api.get_user(screen_name=myhandle)
-    x = me.friends_count
-    y = me.followers_count
-    logging.critical('IsItRaining' + city + ' FOLLOWING:' + str( x ) + ' and FOLLOWERS: ' +  str( y ))
+        forecast('CLT')
 
 def forecast(city):
     config = ConfigParser.RawConfigParser()
     config.read('settings.cfg')
     WOEID = config.get(city, 'WOEID')
-    units = config.get(city, 'units')
-    forecastfile = urllib.urlopen("http://weather.yahooapis.com/forecastrss?w=" + WOEID + "&u=" + units)
+    baseurl = "https://query.yahooapis.com/v1/public/yql?"
+    yql_query = ("select * from weather.forecast where woeid=" + WOEID)
+    yql_url = baseurl + urllib.urlencode({'q':yql_query}) + "&format=xml"
+    forecastfile = urllib.urlopen(yql_url)
     tree = ET.parse(forecastfile)
-    root = tree.getroot()
+    query = tree.getroot()
+    root = query[0]
     channel =  root[0]
     item = channel[12]
     description = item[5]
@@ -117,7 +55,6 @@ def forecast(city):
     currentCondition = int(currentC)
     timeStamp = description.attrib['date']
     forecastfile.close()
-    ata = 'ATA'
 
     rainCodes = [1,2,3,4,5,6,8,9,10,11,12,18,35,37,38,39,40,47,45,46]
     fairCodes = [31,32,33,34] 
@@ -131,11 +68,11 @@ def forecast(city):
         a = random.choice(yes_choices)                
 
     else:
-        no_choices = ['No','Nah','Nope','Not raining']
+        no_choices = ['No','Nah','Nope','Not raining', 'Not raining']
         a = random.choice(no_choices)
 
     if currentCondition in fairCodes:
-        fair_choices = [", beautiful day", ", clear day", ", nice day", ""]
+        fair_choices = [", beautiful day", ", clear day", ", nice day",", fair weather", ""]
         comment = random.choice(fair_choices)
 
     if currentCondition in overcastCodes: 
@@ -154,34 +91,21 @@ def forecast(city):
     if currentCondition in blankCodes:
         comment = str('')
                        
-    if 'pm' in timeStamp:
-        timeStamp = "low tonight of "
+    if 'PM' in timeStamp:
+        timeStamp = "w/ low tonight of "
         tempHL = low
     else:
-        timeStamp = "high today of "
+        timeStamp = "w/ high today of "
         tempHL = high
-
-    if ata in city:
-        timeStamp = 'later, '
-        tempHL = low
-        if currentCondition in snowCodes:
-            snow_choices = [", snow", ", snowfall", ", snow coming down"]
-            comment = random.choice(snow_choices)
-            yes_choices = ["Yes","Yep","Yea","Snowing","Ya"]
-            a = random.choice(yes_choices)            
-
-        else:
-            no_choices = ['Not snowing','No','Nah']
-            a = random.choice(no_choices)
-            comment = str('')
-            pass
+        q = taskqueue.Queue(city)
+        q.purge()
 
     a = a.rstrip("\r\n")                                                
     comment = comment.rstrip("\r\n")
     comment = comment.lower()
     forecastText = forecastText.lower()
 
-    answer = (a + comment + '.\n' + currentTemp + '° now w/ ' + timeStamp + tempHL + '°\n' + "Forecast: " + forecastText + '.')
+    answer = (a + comment + '.\n' + currentTemp + '° now ' + timeStamp + tempHL + '°\n' + "Forecast: " + forecastText + '.')
     logging.info(answer)
     CONSUMER_KEY = config.get(city, 'CONSUMER_KEY')
     CONSUMER_SECRET = config.get(city, 'CONSUMER_SECRET')
@@ -190,16 +114,10 @@ def forecast(city):
     auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
     api = API(auth)
-    result = api.update_status(status = answer )
+    result = api.update_status(status = answer)
 
 
 app = webapp2.WSGIApplication([
-    ('/EST', EST),
-    ('/CST', CST),
-    ('/PST', PST),
-    ('/GMT', GMT),
-    ('/UTC', UTC),
-    ('/UTCm3', UTCm3),
-    ('/UTC10', UTC10),
-    ('/STATS', STATS),
+    ('/ATL', EST),
+    ('/CLT', CST),
 ], debug=False)

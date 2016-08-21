@@ -1,70 +1,11 @@
 cron:
-- description: daily morning tweet
-  url: /EST
+- description: Atlanta trigger
+  url: /ATL
   schedule: every day 07:22
   timezone: America/New_York
 
-- description: check for yes
-  url: /CST
+- description: Charlotte Trigger
+  url: /CLT
   schedule: every day 07:22
-  timezone: America/Chicago  
+  timezone: America/New_york 
 
-- description: check for yes
-  url: /PST
-  schedule: every day 07:22
-  timezone: America/Los_Angeles
-
-- description: check for yes
-  url: /GMT
-  schedule: every day 07:22
-  timezone: Europe/London 
-
-- description: check for yes
-  url: /UTC
-  schedule: every day 07:22
-  timezone: Asia/Hong_Kong
-  
-- description: check for yes
-  url: /UTCm3
-  schedule: every day 07:22
-  timezone: America/Sao_Paulo
-  
-- description: check for yes
-  url: /UTC10
-  schedule: every day 07:22
-  timezone: Australia/Sydney
-  
-- description: daily morning tweet
-  url: /EST
-  schedule: every day 16:22
-  timezone: America/New_York
-
-- description: check for yes
-  url: /CST
-  schedule: every day 16:22
-  timezone: America/Chicago  
-
-- description: check for yes
-  url: /PST
-  schedule: every day 16:22
-  timezone: America/Los_Angeles
-  
-- description: check for yes
-  url: /GMT
-  schedule: every day 16:22
-  timezone: Europe/London 
-
-- description: check for yes
-  url: /UTC
-  schedule: every day 16:22
-  timezone: Asia/Hong_Kong
-  
-- description: check for yes
-  url: /UTCm3
-  schedule: every day 16:22
-  timezone: America/Sao_Paulo
-  
-- description: check for yes
-  url: /UTC10
-  schedule: every day 16:22
-  timezone: Australia/Sydney

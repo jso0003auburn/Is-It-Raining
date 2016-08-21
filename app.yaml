@@ -11,37 +11,15 @@ automatic_scaling:
     max_concurrent_requests: 40
 
 handlers:  
-- url: /EST
+- url: /ATL
   script: tweet_weather.app
   login: admin
   
-- url: /CST
+- url: /CLT
   script: tweet_weather.app
   login: admin
   
-- url: /PST
-  script: tweet_weather.app
-  login: admin
-  
-- url: /GMT
-  script: tweet_weather.app
-  login: admin
-  
-- url: /UTC
-  script: tweet_weather.app
-  login: admin
-  
-- url: /UTCm3
-  script: tweet_weather.app
-  login: admin
-  
-- url: /UTC10
-  script: tweet_weather.app
-  login: admin
-  
-- url: /STATS
-  script: tweet_weather.app
-  login: admin
+
 
 - url: .*
   script: main.app
