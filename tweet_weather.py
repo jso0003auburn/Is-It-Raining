@@ -22,9 +22,9 @@ from urllib2 import urlopen, URLError
 #Use Cron to schedule
  
         
-class CLT(webapp2.RequestHandler):
+class CITY(webapp2.RequestHandler):
     def get(self):
-        forecast('CLT')
+        forecast('CITY')
 
 def forecast(city):
     config = ConfigParser.RawConfigParser()
@@ -113,5 +113,5 @@ def forecast(city):
 
 
 app = webapp2.WSGIApplication([
-    ('/CLT', CST)
+    ('/CITY', CITY)
 ], debug=False)

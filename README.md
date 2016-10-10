@@ -41,7 +41,7 @@ http://woeid.rosselliot.co.nz/
 Example settings.cfg
 --------------------
 
-	[ATL]
+	[CLT]
 	WOEID = 2371098
 	CONSUMER_KEY = ConsumerKey
 	CONSUMER_SECRET = ConsumerSecret

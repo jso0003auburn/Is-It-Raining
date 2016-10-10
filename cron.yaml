@@ -1,7 +1,7 @@
 cron:
 
-- description: Charlotte Trigger
-  url: /CLT
+- description: Forecast traigger
+  url: /CITY
   schedule: every day 07:22
   timezone: America/New_york 
 

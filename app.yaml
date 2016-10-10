@@ -11,16 +11,11 @@ automatic_scaling:
     max_concurrent_requests: 40
 
 handlers:  
-- url: /ATL
+  
+- url: /CITY
   script: tweet_weather.app
   login: admin
   
-- url: /CLT
-  script: tweet_weather.app
-  login: admin
-  
-
-
 - url: .*
   script: main.app
   login: admin
