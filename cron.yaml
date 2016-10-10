@@ -1,8 +1,4 @@
 cron:
-- description: Atlanta trigger
-  url: /ATL
-  schedule: every day 07:22
-  timezone: America/New_York
 
 - description: Charlotte Trigger
   url: /CLT

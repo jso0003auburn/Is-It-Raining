@@ -21,11 +21,6 @@ from urllib2 import urlopen, URLError
 #First function is designed to check the current conditions and then tweet the following
 #Use Cron to schedule
  
- 
-            
-class ATL(webapp2.RequestHandler):
-    def get(self):
-        forecast('ATL')
         
 class CLT(webapp2.RequestHandler):
     def get(self):
@@ -118,6 +113,5 @@ def forecast(city):
 
 
 app = webapp2.WSGIApplication([
-    ('/ATL', EST),
-    ('/CLT', CST),
+    ('/CLT', CST)
 ], debug=False)
